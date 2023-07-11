@@ -65,7 +65,7 @@ texture_normal = ExtResource("5_5y12g")
 texture_pressed = ExtResource("7_no351")
 texture_hover = ExtResource("8_jkwj5")
 ignore_texture_size = true
-stretch_mode = 3
+stretch_mode = 4
 script = ExtResource("8_hu0ay")
 
 [connection signal="timeout" from="Node2D/Timer" to="Node2D/TextureButton" method="_on_timer_timeout"]
