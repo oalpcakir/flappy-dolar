@@ -18,3 +18,4 @@ func toggle_visibility() -> void:
 func _on_timer_timeout():
 	visible = true
 	pass # Replace with function body.
+

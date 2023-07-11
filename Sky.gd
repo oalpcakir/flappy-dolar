@@ -8,6 +8,7 @@ func _ready():
 
 func _process(delta: float) -> void:
 	position.x += VELOCITY
+	#position.y -= VELOCITY
 	_attempt_reposition()
 	
 func _attempt_reposition() -> void:
