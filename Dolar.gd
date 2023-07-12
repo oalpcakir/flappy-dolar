@@ -2,6 +2,7 @@ extends Sprite2D
 
 var speed = 600
 var angular_speed = PI
+@onready var bird = $"bird"
 
 
 
@@ -14,7 +15,11 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	position = position.move_toward(Vector2(10,300), speed*delta)
+	position = position.move_toward(Vector2(-20,520), speed*delta)
 	pass
 	
 
+
+func _on_bird_game_started():
+	hide()
+	pass # Replace with function body.

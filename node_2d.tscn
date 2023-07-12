@@ -1,20 +1,31 @@
-[gd_scene load_steps=10 format=3 uid="uid://ikjf4ql4nh5p"]
+[gd_scene load_steps=17 format=3 uid="uid://ikjf4ql4nh5p"]
 
 [ext_resource type="Texture2D" uid="uid://comx6n3t87kc3" path="res://dolar title.png" id="1_b178x"]
+[ext_resource type="Script" path="res://node_2d.gd" id="1_uyj58"]
 [ext_resource type="Script" path="res://Dolar.gd" id="2_y0wjr"]
 [ext_resource type="Script" path="res://Sky.gd" id="4_77os1"]
 [ext_resource type="Texture2D" uid="uid://cbk6mqcgt14l4" path="res://oyna.png" id="5_5y12g"]
 [ext_resource type="Texture2D" uid="uid://csf7654p25i2e" path="res://GlacialMountains_PS.png" id="5_wig04"]
 [ext_resource type="Texture2D" uid="uid://r4mpv0y60j8b" path="res://Clouds.png" id="5_x6c1n"]
+[ext_resource type="Script" path="res://Clouds.gd" id="6_er4qd"]
 [ext_resource type="Texture2D" uid="uid://ceaoq1x6qkq3w" path="res://oyna-pressed.png" id="7_no351"]
+[ext_resource type="Script" path="res://Button.gd" id="8_107sh"]
 [ext_resource type="Script" path="res://TextureButton.gd" id="8_hu0ay"]
 [ext_resource type="Texture2D" uid="uid://dftbyt7p1025o" path="res://oyna-hover.png" id="8_jkwj5"]
+[ext_resource type="SpriteFrames" uid="uid://b2yla3ojot4rd" path="res://dolarbird-big.res" id="10_m37oj"]
+[ext_resource type="Script" path="res://AnimatedSprite2D.gd" id="11_te5gv"]
+[ext_resource type="Script" path="res://Sprite2D.gd" id="16_lkqw3"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fbknw"]
+radius = 7.45406
+height = 34.1313
 
 [node name="Node2D" type="Node2D"]
-position = Vector2(542, 229)
+position = Vector2(613, 0)
+script = ExtResource("1_uyj58")
 
 [node name="Dolar" type="Sprite2D" parent="."]
-position = Vector2(-1510, 903)
+position = Vector2(-1526, 903)
 scale = Vector2(0.848148, 0.728704)
 texture = ExtResource("1_b178x")
 centered = false
@@ -34,7 +45,7 @@ motion_scale = Vector2(0.5, 0.5)
 
 [node name="Sky" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 texture_repeat = 2
-position = Vector2(758, 358)
+position = Vector2(760, 360)
 texture = ExtResource("5_wig04")
 region_enabled = true
 region_rect = Rect2(0, 0, 10000, 720)
@@ -43,24 +54,26 @@ script = ExtResource("4_77os1")
 [node name="Clouds" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 show_behind_parent = true
 texture_repeat = 2
-position = Vector2(357, 77)
+position = Vector2(352, 97)
 texture = ExtResource("5_x6c1n")
 region_enabled = true
 region_rect = Rect2(0, 0, 40000, 40000)
+script = ExtResource("6_er4qd")
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="Button" type="Node2D" parent="."]
 position = Vector2(-542, -229)
+script = ExtResource("8_107sh")
 
-[node name="Timer" type="Timer" parent="Node2D"]
+[node name="Timer" type="Timer" parent="Button"]
 wait_time = 3.0
 one_shot = true
 autostart = true
 
-[node name="TextureButton" type="TextureButton" parent="Node2D"]
-offset_left = 402.0
-offset_top = 359.0
-offset_right = 760.0
-offset_bottom = 632.0
+[node name="TextureButton" type="TextureButton" parent="Button"]
+offset_left = 362.0
+offset_top = 588.0
+offset_right = 720.0
+offset_bottom = 861.0
 texture_normal = ExtResource("5_5y12g")
 texture_pressed = ExtResource("7_no351")
 texture_hover = ExtResource("8_jkwj5")
@@ -68,4 +81,34 @@ ignore_texture_size = true
 stretch_mode = 4
 script = ExtResource("8_hu0ay")
 
-[connection signal="timeout" from="Node2D/Timer" to="Node2D/TextureButton" method="_on_timer_timeout"]
+[node name="bird" type="AnimatedSprite2D" parent="."]
+process_mode = 3
+position = Vector2(-5, 299)
+sprite_frames = ExtResource("10_m37oj")
+animation = &"flappy"
+speed_scale = 10.0
+script = ExtResource("11_te5gv")
+metadata/_aseprite_wizard_config_ = {
+"layer": "",
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"op_exp": true,
+"source": "res://dolarbirdbig.aseprite"
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bird"]
+position = Vector2(0, 3)
+rotation = 0.986111
+scale = Vector2(2.7, 2.7)
+skew = 0.125664
+shape = SubResource("CapsuleShape2D_fbknw")
+
+[node name="Skysc" type="Sprite2D" parent="."]
+position = Vector2(560, 605)
+script = ExtResource("16_lkqw3")
+
+[connection signal="timeout" from="Button/Timer" to="Button/TextureButton" method="_on_timer_timeout"]
+[connection signal="game_started" from="bird" to="Dolar" method="_on_bird_game_started"]
+[connection signal="game_started" from="bird" to="Button" method="_on_bird_game_started"]
