@@ -2,7 +2,7 @@ extends Sprite2D
 
 var speed = 600
 var angular_speed = PI
-@onready var bird = $"bird"
+
 
 
 

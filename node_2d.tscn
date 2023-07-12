@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ikjf4ql4nh5p"]
+[gd_scene load_steps=19 format=3 uid="uid://ikjf4ql4nh5p"]
 
 [ext_resource type="Texture2D" uid="uid://comx6n3t87kc3" path="res://dolar title.png" id="1_b178x"]
 [ext_resource type="Script" path="res://node_2d.gd" id="1_uyj58"]
@@ -14,11 +14,16 @@
 [ext_resource type="Texture2D" uid="uid://dftbyt7p1025o" path="res://oyna-hover.png" id="8_jkwj5"]
 [ext_resource type="SpriteFrames" uid="uid://b2yla3ojot4rd" path="res://dolarbird-big.res" id="10_m37oj"]
 [ext_resource type="Script" path="res://AnimatedSprite2D.gd" id="11_te5gv"]
+[ext_resource type="Texture2D" uid="uid://mdf80nprwm6f" path="res://banka.png" id="15_7n2yl"]
 [ext_resource type="Script" path="res://Sprite2D.gd" id="16_lkqw3"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fbknw"]
 radius = 7.45406
 height = 34.1313
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3kin3"]
+radius = 104.0
+height = 210.0
 
 [node name="Node2D" type="Node2D"]
 position = Vector2(613, 0)
@@ -105,10 +110,26 @@ scale = Vector2(2.7, 2.7)
 skew = 0.125664
 shape = SubResource("CapsuleShape2D_fbknw")
 
+[node name="Area2D" type="Area2D" parent="bird"]
+position = Vector2(-1, 3)
+collision_mask = 2
+
 [node name="Skysc" type="Sprite2D" parent="."]
-position = Vector2(560, 605)
+position = Vector2(985, 502)
+texture = ExtResource("15_7n2yl")
 script = ExtResource("16_lkqw3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Skysc"]
+position = Vector2(-22, -33)
+shape = SubResource("CapsuleShape2D_3kin3")
+
+[node name="Area2D" type="Area2D" parent="Skysc"]
+position = Vector2(90, 111)
+collision_layer = 2
 
 [connection signal="timeout" from="Button/Timer" to="Button/TextureButton" method="_on_timer_timeout"]
 [connection signal="game_started" from="bird" to="Dolar" method="_on_bird_game_started"]
 [connection signal="game_started" from="bird" to="Button" method="_on_bird_game_started"]
+[connection signal="game_started" from="bird" to="Skysc" method="_on_bird_game_started"]
+[connection signal="bird_entered" from="Skysc" to="." method="_on_skysc_bird_entered"]
+[connection signal="point_scored" from="Skysc" to="." method="_on_skysc_point_scored"]

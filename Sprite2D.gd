@@ -2,8 +2,10 @@ extends Node2D
 
 const PIPE_SPEED = Vector2(-200, 100)
 const PIPE_GAP = 200
-
+signal bird_entered
+signal point_scored
 var pipeTimer = 0
+var gameStart= false
 
 class Pipe extends Sprite2D:
 	var velocity = Vector2.ZERO
@@ -11,12 +13,19 @@ class Pipe extends Sprite2D:
 func _ready():
 	pass
 
+func _on_bird_game_started():
+	gameStart = true
+	pass # Replace with function body.
+
+
+
 func _process(delta):
 	pipeTimer -= delta
-
-	if pipeTimer <= 0:
-		create_pipe()
-		pipeTimer = randf_range(1, 3)  # Adjust the timing of pipe creation here
+	
+	if gameStart == true:
+		if  pipeTimer <= 0:
+			create_pipe()
+			pipeTimer = randf_range(1, 3)  # Adjust the timing of pipe creation here
 
 func create_pipe():
 	var pipe = Pipe.new()
@@ -41,3 +50,11 @@ func _physics_process(delta):
 		if pipe is Pipe:
 			if pipe.position.x > previousPipePos.x:
 				previousPipePos = pipe.position
+
+
+func on_body_entered():
+	bird_entered.emit()
+	get_tree().reload_scene()
+	
+func _on_points_scored(body):
+	point_scored.emit()

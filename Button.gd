@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var bird = $"bird"
+
 
 func _ready():
 	pass

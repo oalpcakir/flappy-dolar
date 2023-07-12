@@ -19,8 +19,3 @@ func _on_timer_timeout():
 	visible = true
 	pass # Replace with function body.
 
-
-
-func _on_timer_2_timeout():
-	visible = false
-	pass # Replace with function body.
